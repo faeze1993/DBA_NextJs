@@ -1,0 +1,288 @@
+@media (min-width: 1024px) {
+    .card__thumb {
+        max-height: 300px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .card__thumb::after {
+        top: calc(100% - 140px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .card__caption {
+        top: calc(100% - 110px);
+        transform: unset;
+    }
+}
+
+@media (min-width: 1024px) {
+    .card__snippet {
+        margin: 90px 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .sidebar {
+        top: 11.5rem;
+        padding: 0;
+    }
+}
+
+@media (min-width: 767.98px) {
+    .navbar {
+        top: 0;
+        position: sticky;
+        z-index: 9;
+    }
+}
+
+@media screen and (max-width : 991px) {
+    .main-menu nav>span {
+        display: block;
+    }
+
+    .main-menu nav>ul {
+        display: none
+    }
+
+    .main-menu {
+        height: 44px;
+    }
+
+    .main-menu nav {
+        width: 50px;
+        height: 44px
+    }
+
+    .main-menu nav>span {
+        display: block;
+    }
+
+    .main-menu nav>ul {
+        position: absolute;
+        min-width: 280px;
+        white-space: nowrap;
+        right: 0;
+        top: 44px;
+        background-color: #2aaf27;
+        border-bottom: 3px solid #0c740a;
+        padding: 10px 15px 15px;
+        z-index: 1000;
+        display: none
+    }
+
+    .main-menu nav>ul>li {
+        width: 100%;
+        float: none;
+        padding: 5px 0;
+        position: relative;
+    }
+
+    .main-menu nav>ul>li>a {
+        border-left: 0
+    }
+
+    .main-menu nav>ul>li:nth-child(1) a {
+        padding-right: 15px
+    }
+
+    .main-menu nav>ul>li .caret-icon {
+        position: absolute;
+        left: 5px;
+        top: 0;
+        color: #fff;
+        width: 20px;
+        height: 20px;
+        font-size: 22px
+    }
+
+    .main-menu nav>ul>li ul {
+        position: static;
+    }
+
+    .main-menu nav>ul>li>ul>li>a {
+        display: block;
+        width: 100%
+    }
+
+    .client-page {
+        padding: 50px 0
+    }
+
+    .term-categories .switch-field {
+        margin-top: 10px
+    }
+
+    .term-categories>.top-bar .select-ddl {
+        margin-top: 10px
+    }
+}
+
+@media screen and (max-width : 768px) {
+    .client-page .container-content {
+        width: 92%;
+        margin-right: 4%
+    }
+
+    .landing-layer header h1 {
+        font-size: 26px
+    }
+
+    .landing-layer header h2,
+    .landing-layer header h3 {
+        padding: 5px 0;
+        font-size: 19px;
+    }
+
+    .search-form {
+        width: 90%;
+        margin-right: 5%
+    }
+
+    .nav-layer nav ul li a {
+        padding-right: 0
+    }
+}
+
+
+@media screen and (min-width : 767px) {
+    .stickymode {
+        height: 100%;
+        position: sticky;
+        top: 10px
+    }
+}
+
+
+@media screen and (max-width : 767px) {
+    .landing-layer header {
+        padding-top: 0
+    }
+
+    .nav-layer nav .clientarea {
+        text-align: right;
+        padding-top: 10px
+    }
+
+    .search-form {
+        padding-bottom: 1px;
+        width: 100%;
+        margin: 0
+    }
+
+
+    .term-content .term-description ul li i {
+        padding: 0 2px
+    }
+
+    .term-content .term-description ul li span {
+        float: none;
+        display: block;
+        clear: both;
+        font-size: 15px;
+        padding-top: 8px
+    }
+
+    .term-content .term-description {
+        padding: 15px;
+    }
+}
+
+@media screen and (max-width : 480px) {
+
+    .landing-layer header h2,
+    .landing-layer header h3 {
+        display: none
+    }
+
+    .landing-layer header h1 {
+        font-size: 21px
+    }
+
+    .landing-layer header {
+        padding-bottom: 30px
+    }
+
+    .term-categories>.top-bar>header>span {
+        display: none
+    }
+}
+
+@media screen and (max-width : 420px) {
+    .comment-list .comment-row {
+        padding: 15px 0
+    }
+
+    .comment-list .comment-row img {
+        position: static;
+        display: block;
+        margin: 0 auto 5px
+    }
+
+    .comment-list .comment-row .left-col h3,
+    .comment-list .comment-row .left-col span {
+        display: block;
+        text-align: center;
+    }
+
+
+}
+
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    .image-modal-content {
+        width: 100%;
+    }
+}
+
+/* Add indicator arrow for the active tab */
+@media (min-width: 992px) {
+    .nav-pills-custom .nav-link::before {
+        content: '';
+        display: block;
+        border-top: 8px solid transparent;
+        border-left: 10px solid #fff;
+        border-bottom: 8px solid transparent;
+        position: absolute;
+        top: 50%;
+        right: -10px;
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+}
+
+/* @media (min-width: 576px) {
+
+    .container,
+    .container-sm {
+        max-width: 95% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 1140px!important;
+    }
+}
+
+
+
+@media (min-width: 1400px) {
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl,
+    .container-xxl {
+        max-width: 1320px!important;
+    }
+} */
