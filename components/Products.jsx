@@ -91,7 +91,7 @@ const Products = ({ aboutpageData }) => {
                                     <p className=" " style={{ lineHeight: "1.5rem",textAlign:"center",minHeight: "90px" }}>
                                         {item.Description.length > 180 ? item.Description.substring(0,180) + "...": item.Description}
                                     </p>
-                                    <Link href={"/productdemoform"} className="btn btn-primary stretched-link color--button">درخواست دمو</Link>
+                                    <Link href={"/productDemo"} className="btn btn-primary stretched-link color--button">درخواست دمو</Link>
                                 </div>
                             </div>
                         ))

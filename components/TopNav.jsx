@@ -77,8 +77,8 @@ const TopNav = () => {
                                     <>
                                         <div className="signin">
                                             <LogIn className="pe-1" />
-                                            <NavLink href="/login" activeClassName="main-color"> ورود </NavLink> &nbsp; | &nbsp;
-                                            <NavLink href="/register" activeClassName="main-color"> عضویت </NavLink>
+                                            <NavLink href="/account/login" activeClassName="main-color"> ورود </NavLink> &nbsp; | &nbsp;
+                                            <NavLink href="/account/register" activeClassName="main-color"> عضویت </NavLink>
                                         </div>
 
                                     </>

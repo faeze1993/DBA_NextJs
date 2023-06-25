@@ -23,13 +23,13 @@ import { useRouter } from 'next/router';
 import { GetWebSiteTitle } from '../../services/mainpageService';
 import ArticleLayout from '../../layout/ArticleLayout'
 import MainLayout from '../../layout/MainLayout'
+import Script from 'next/script'
 
 const Article = ({ response, article, webSiteTitle }) => {
 
     const articleComment = useSelector(state => state.articleComment);
     const router = useRouter();
-    const { id } = router.query;
-
+    const id = router.query.slug[0];
     const dispatch = useDispatch();
     const [isLogin, setIsLogin] = useState(false)
 
@@ -69,15 +69,17 @@ const Article = ({ response, article, webSiteTitle }) => {
         // dispatch(getSingleArticle(id, token));
         dispatch(getBreadCrumbListOnArticleId(id));
         // dispatch(saveArticleVisit(id));
+        handleAllActionAfterInteractive()
     }, [article.Body, id])
 
-    highlightCode();
-    setCopyButton();
-    keepSidbarState();
-    handleShowImageModal();
+    function handleAllActionAfterInteractive(){
+        highlightCode();
+        setCopyButton();
+        keepSidbarState();
+        handleShowImageModal();
+    }
 
     function highlightCode() {
-        debugger
         if (!isUndefined(article.Body)) {
             Prism.highlightAll();
         }
@@ -139,7 +141,7 @@ const Article = ({ response, article, webSiteTitle }) => {
                 element.classList.remove("active-border");
             }
         }
-
+        debugger
         var ullist = document.getElementsByClassName("child-nav")
         if (ullist.length > 0) {
             for (let index = 0; index < ullist.length; index++) {
@@ -242,112 +244,121 @@ const Article = ({ response, article, webSiteTitle }) => {
         return <Notfound />
     } else {
         return (
-            <div className="col-md-12 col-sm-12 col-12 pull-left">
-                {article.Name &&
-                    <Head>
-                        <title>{article.Name} |{webSiteTitle}</title>
-                        <meta name="keywords" content={article.KeyWordsList}></meta>
-                        <meta name="author" content={article.AuthorName}></meta>
-                        <meta property="og:type" content="article" />
-                        <meta property="og:title" content={article.Name} />
-                        <meta property="og:image" content="https://masterdba.ir/DBA_DIRECTORY/panel/DBA123.png" />
-                        <meta property="og:description" content={article.Summery} />
-                    </Head>}
+            <>
+                <Script
+                    src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+                    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+                    crossorigin="anonymous"
+                    strategy="afterInteractive"
+                    onLoad={handleAllActionAfterInteractive}
+                ></Script>
+                <div className="col-md-12 col-sm-12 col-12 pull-left">
+                    {article.Name &&
+                        <Head>
+                            <title>{article.Name} |{webSiteTitle}</title>
+                            <meta name="keywords" content={article.KeyWordsList}></meta>
+                            <meta name="author" content={article.AuthorName}></meta>
+                            <meta property="og:type" content="article" />
+                            <meta property="og:title" content={article.Name} />
+                            <meta property="og:image" content="https://masterdba.ir/DBA_DIRECTORY/panel/DBA123.png" />
+                            <meta property="og:description" content={article.Summery} />
+                        </Head>}
 
-                <header className='px-3'>
-                    <div className='row mb-3'>
-                        {article.Article_PreID &&
-                            <div className='col'>
-                                <Link className='btn btn-pre' href={`/article/${article.Article_PreID}/${article.Article_PreName?.replace(" ", "_").replace(/ /g, "_")}`}><CornerRightDown /> {article.Article_PreName} </Link>
-                            </div>
-                        }
-                        {article.Article_NextID &&
-                            <div className='col d-flex justify-content-end'>
-                                <Link className='btn btn-next' href={`/article/${article.Article_NextID}/${article.Article_NextName?.replace(" ", "_").replace(/ /g, "_")}`}>{article.Article_NextName} <CornerLeftUp /></Link>
-                            </div>
-                        }
-
-                    </div>
-                    <div className='row'>
-                        <div className='col-md-12 article-title-container pb-2'>
-                            <h2 className='article-Title' style={{ fontSize: "24px" }}> {article.Name} </h2>
-                        </div>
-
-                    </div>
-
-                    <div className='row mt-2'>
-                        <div className='col-md-11'>
-                            <ul className='article-data mb-2 d-lg-flex'>
-                                <li className='me-3 mb-2 mb-lg-auto'><Calendar className='me-2' size="18px" /> {article.UploadDate}</li>
-                                {article.UpdateDate != 0 &&
-                                    <li className='me-3  mb-2 mb-lg-auto' title='تاریخ ویرایش'><Clock className='me-2' size="18px" />
-                                        {getDateago(article.UpdateDate)}
-                                    </li>
-                                }
-                                <li className='me-3  mb-2 mb-lg-auto'><Watch className='me-2' size="18px" /> {article.TimeToRead} دقیقه برای مطالعه</li>
-                                <li className='me-3  mb-2 mb-lg-auto'><Eye className='me-2' size="18px" />تعداد بازدید <span>{article.Views > 1000 ? article.Views / 1000 + " " + "هزار" : article.Views}</span></li>
-                                <li className='me-3  mb-2 mb-lg-auto d-none d-xl-block'>
-                                    <OverlayTrigger trigger="hover" placement="left" rootClose overlay={popoverLeft2}>
-                                        <div>
-                                            <Edit2 className='me-2' size="18px" /><Link href={`/authorpage/${article.AuthorId}/${article.AuthorName.replace(" ", "_").replace(/ /g, "_")}`}> <span className='authorname'>{article.AuthorName}</span></Link>
-                                        </div>
-                                    </OverlayTrigger>
-                                </li>
-                                <li className='me-3 mb-2 mb-lg-auto d-block d-xl-none'>
-                                    <Edit2 className='me-2' size="18px" /><Link href={`/authorpage/${article.AuthorId}/${article.AuthorName.replace(" ", "_").replace(/ /g, "_")}`}> <span className='authorname'>{article.AuthorName}</span></Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className='col-md-1'>
-                            {(isLogin) &&
-                                <span>
-                                    <Link href={`/dashboard/articleeditorpage/${article.ParentId}/${article.Id}`} target='_blank'>
-                                        <Edit size="18px" />
-                                    </Link>
-
-                                </span>
+                    <header className='px-3'>
+                        <div className='row mb-3'>
+                            {article.Article_PreID &&
+                                <div className='col'>
+                                    <Link className='btn btn-pre' href={`/article/${article.Article_PreID}/${article.Article_PreName?.replace(" ", "_").replace(/ /g, "_")}`}><CornerRightDown /> {article.Article_PreName} </Link>
+                                </div>
                             }
+                            {article.Article_NextID &&
+                                <div className='col d-flex justify-content-end'>
+                                    <Link className='btn btn-next' href={`/article/${article.Article_NextID}/${article.Article_NextName?.replace(" ", "_").replace(/ /g, "_")}`}>{article.Article_NextName} <CornerLeftUp /></Link>
+                                </div>
+                            }
+
                         </div>
-                    </div>
-                    <hr className='my-0'></hr>
-                </header>
+                        <div className='row'>
+                            <div className='col-md-12 article-title-container pb-2'>
+                                <h2 className='article-Title' style={{ fontSize: "24px" }}> {article.Name} </h2>
+                            </div>
 
-
-                <section className="term-description">
-
-                    {article.Body ? (<CustomeArticleParser content={article.Body} />) : null}
-
-
-                </section>
-
-                <footer className='px-4' style={{ clear: "both" }}>
-                    {!isEmpty(article.Refrences) &&
-                        <div className='col-12 pb-3'>
-                            <OverlayTrigger trigger="click" placement="left" rootClose overlay={popoverLeft}>
-                                <span className='pointer bold main-color'>مشاهده منابع</span>
-                            </OverlayTrigger>
                         </div>
-                    }
 
-                    <div className='col-12'>
-                        {article.KeyWordsList ? article.KeyWordsList.map((item, i) => (
-                            <span key={i} onClick={e => { dispatch(setSearchValue(item)); window.scrollTo(0, 0) }} className='article-tag pointer' ><Tag size={"14px"} className='me-1' />{item}</span>
+                        <div className='row mt-2'>
+                            <div className='col-md-11'>
+                                <ul className='article-data mb-2 d-lg-flex'>
+                                    <li className='me-3 mb-2 mb-lg-auto'><Calendar className='me-2' size="18px" /> {article.UploadDate}</li>
+                                    {article.UpdateDate != 0 &&
+                                        <li className='me-3  mb-2 mb-lg-auto' title='تاریخ ویرایش'><Clock className='me-2' size="18px" />
+                                            {getDateago(article.UpdateDate)}
+                                        </li>
+                                    }
+                                    <li className='me-3  mb-2 mb-lg-auto'><Watch className='me-2' size="18px" /> {article.TimeToRead} دقیقه برای مطالعه</li>
+                                    <li className='me-3  mb-2 mb-lg-auto'><Eye className='me-2' size="18px" />تعداد بازدید <span>{article.Views > 1000 ? article.Views / 1000 + " " + "هزار" : article.Views}</span></li>
+                                    <li className='me-3  mb-2 mb-lg-auto d-none d-xl-block'>
+                                        <OverlayTrigger trigger="hover" placement="left" rootClose overlay={popoverLeft2}>
+                                            <div>
+                                                <Edit2 className='me-2' size="18px" /><Link href={`/authors/${article.AuthorId}/${article.AuthorName.replace(" ", "_").replace(/ /g, "_")}`}> <span className='authorname'>{article.AuthorName}</span></Link>
+                                            </div>
+                                        </OverlayTrigger>
+                                    </li>
+                                    <li className='me-3 mb-2 mb-lg-auto d-block d-xl-none'>
+                                        <Edit2 className='me-2' size="18px" /><Link href={`/authors/${article.AuthorId}/${article.AuthorName.replace(" ", "_").replace(/ /g, "_")}`}> <span className='authorname'>{article.AuthorName}</span></Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className='col-md-1'>
+                                {(isLogin) &&
+                                    <span>
+                                        <Link href={`/dashboard/articleeditorpage/${article.ParentId}/${article.Id}`} target='_blank'>
+                                            <Edit size="18px" />
+                                        </Link>
 
-                        )) : null}
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <hr className='my-0'></hr>
+                    </header>
+
+
+                    <section className="term-description">
+
+                        {article.Body ? (<CustomeArticleParser content={article.Body} />) : null}
+
+                    </section>
+
+                    <footer className='px-4' style={{ clear: "both" }}>
+                        {!isEmpty(article.Refrences) &&
+                            <div className='col-12 pb-3'>
+                                <OverlayTrigger trigger="click" placement="left" rootClose overlay={popoverLeft}>
+                                    <span className='pointer bold main-color'>مشاهده منابع</span>
+                                </OverlayTrigger>
+                            </div>
+                        }
+
+                        <div className='col-12'>
+                            {article.KeyWordsList ? article.KeyWordsList.map((item, i) => (
+                                <span key={i} onClick={e => { dispatch(setSearchValue(item)); window.scrollTo(0, 0) }} className='article-tag pointer' ><Tag size={"14px"} className='me-1' />{item}</span>
+
+                            )) : null}
+                        </div>
+                    </footer>
+
+                    {isLogin
+                        ? <Comment articleId={id} />
+                        : <div className='mt-3 text-center alert alert-info' role="alert" ><span className='font-bold' >برای ثبت نظر باید وارد شوید</span></div>}
+
+                    <CommentList articleId={id} articleComment={articleComment} islogin={isLogin} />
+
+                    <div id="imgZoomModal" className="image-modal" >
+                        <span className="close" onClick={handleCloseImageModal}>&times;</span>
+                        <img className="image-modal-content" id="img02" />
                     </div>
-                </footer>
-
-                {isLogin
-                    ? <Comment articleId={id} />
-                    : <div className='mt-3 text-center alert alert-info' role="alert" ><span className='font-bold' >برای ثبت نظر باید وارد شوید</span></div>}
-
-                <CommentList articleId={id} articleComment={articleComment} islogin={isLogin} />
-
-                <div id="imgZoomModal" className="image-modal" >
-                    <span className="close" onClick={handleCloseImageModal}>&times;</span>
-                    <img className="image-modal-content" id="img02" />
                 </div>
-            </div>
+            </>
+
         );
     }
 }

@@ -2,18 +2,25 @@ import React, { useState, useRef } from "react";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import { Home } from "react-feather";
 import SimpleReactValidator from "simple-react-validator";
-import { SaveConectUs } from "../../services/ContentUsService";
 import { errorMessage, successMessage } from "../../utils/message";
 import { useSelector } from "react-redux";
+import Select from "react-select";
+import { useDispatch } from "react-redux";
+import { getProductList } from "../../actions/product";
+import { useEffect } from "react";
+import { SaveProductRequest } from "../../services/productRequestService";
 import Head from "next/head";
-import { GetWebSiteTitle } from "../../services/mainpageService";
 
-const ContactUs = ({webSiteTitle}) => {
+const ProductDemoForm = ({ location }) => {
 
+    const webSiteTitle = useSelector(state => state.webSiteTitle);
+    const productList = useSelector(state => state.productValueLabelList)
+
+    const dispatch = useDispatch();
 
     const [FullName, setFullName] = useState("");
-    const [Email, setEmail] = useState("");
-    const [Subject, setSubject] = useState("");
+    const [Mobile, setMobile] = useState("");
+    const [SelectedProducts, setSelectedProducts] = useState([]);
     const [Description, setDescription] = useState("");
 
     const [, forceUpdate] = useState();
@@ -33,7 +40,12 @@ const ContactUs = ({webSiteTitle}) => {
         )
     )
 
-    const handleSubmit = async(e) => {
+
+    useEffect(() => {
+        dispatch(getProductList())
+    }, [])
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
@@ -41,13 +53,14 @@ const ContactUs = ({webSiteTitle}) => {
 
                 var model = {
                     FullName,
-                    Email,
-                    Subject,
+                    Mobile,
+                    Products: JSON.stringify(SelectedProducts),
                     Description
                 }
 
-                const { data } = await SaveConectUs(model);
-                // console.log("data", data);
+                console.info("model",model);
+                const { data } = await SaveProductRequest(model);
+                console.log("data", data);
                 if (data.Status == "success") {
                     successMessage("پیام شما با موفقیت ثبت شد");
                     resetStates();
@@ -67,21 +80,21 @@ const ContactUs = ({webSiteTitle}) => {
     const resetStates = () => {
         setFullName("");
         setDescription("");
-        setSubject("");
-        setEmail("");
+        setSelectedProducts([]);
+        setMobile("");
     }
     return (
         <>
             <Head>
-                <title> تماس با ما |  {webSiteTitle}</title>
+                <title> ثبت درخواست پروژه|  {webSiteTitle}</title>
             </Head>
-            <BreadcrumbsItem to='/' href='/' ><Home size={"16px"}/></BreadcrumbsItem>
-            <BreadcrumbsItem to='/contactus' href='/contactus'>تماس با ما </BreadcrumbsItem>
+            <BreadcrumbsItem to='/' href='/'><Home size={"16px"} /></BreadcrumbsItem>
+            <BreadcrumbsItem to='/contactus' href='/contactus'>درخواست پروژه</BreadcrumbsItem>
             <div className="container-xxl py-4">
                 <div className="col-12 contactUs">
                     <div className="row about-title pb-2">
                         <div className="co-md-12">
-                            تماس با ما
+                            درخواست پروژه
                         </div>
                     </div>
                     <div className="row about-content">
@@ -99,23 +112,17 @@ const ContactUs = ({webSiteTitle}) => {
                                 <div className="col-auto  mb-2">
                                     <input class="form-control"
                                         type="text"
-                                        placeholder="ایمیل"
+                                        placeholder="موبایل"
                                         aria-label="default input example"
-                                        value={Email}
-                                        onChange={(e) => { setEmail(e.target.value); validation.current.showMessageFor('Email') }}
+                                        value={Mobile}
+                                        onChange={(e) => { setMobile(e.target.value); validation.current.showMessageFor('Mobile') }}
                                     />
                                 </div>
-                                {validation.current.message("Email", Email, 'required')}
+                                {validation.current.message("Mobile", Mobile, 'required')}
                                 <div className="col-auto  mb-2">
-                                    <input class="form-control"
-                                        type="text"
-                                        placeholder="موضوع"
-                                        aria-label="default input example"
-                                        value={Subject}
-                                        onChange={(e) => { setSubject(e.target.value); validation.current.showMessageFor('Subject') }}
-                                    />
+                                    <Select options={productList} isMulti onChange={(e) => { setSelectedProducts(e); validation.current.showMessageFor('SelectedProducts') }} />
                                 </div>
-                                {validation.current.message("Subject", Subject, 'required')}
+                                {validation.current.message("Subject", SelectedProducts, 'required')}
                                 <div className="col-auto  mb-2">
                                     <textarea class="form-control"
                                         re type="text"
@@ -123,6 +130,7 @@ const ContactUs = ({webSiteTitle}) => {
                                         aria-label="default input example"
                                         style={{ resize: "vertical" }}
                                         value={Description}
+                                        rows="6"
                                         onChange={(e) => { setDescription(e.target.value); validation.current.showMessageFor('Description') }}
                                     />
                                 </div>
@@ -133,7 +141,7 @@ const ContactUs = ({webSiteTitle}) => {
                             </form>
                         </div>
                         <div className="col-md-6 ">
-                            <img src="../images/undraw-contact.svg" />
+                            <img src="../images/undraw_remotely_2j6y.svg" />
                         </div>
 
                     </div>
@@ -143,22 +151,4 @@ const ContactUs = ({webSiteTitle}) => {
     );
 }
 
-export default ContactUs;
-
-
-// get webSiteTitle  
-export const getStaticProps = async () => {
-  
-    let webSiteTitle = "";
-  
-    const data = await GetWebSiteTitle();
-    webSiteTitle= data.data;
-
-    return {
-      props: {
-        webSiteTitle: webSiteTitle
-      },
-      revalidate: 60, // In seconds
-    };
-  };
-  
+export default ProductDemoForm;

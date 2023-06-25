@@ -116,7 +116,7 @@ const SearchTool = () => {
 
 
               setValue(listItems[currentLI].attributes.name.value);
-              router.push(`/article/${listItems[currentLI].id}/${listItems[currentLI].attributes.name.value}`);
+              router.push(`/article/${listItems[currentLI].id}/${listItems[currentLI].attributes.name.value.replace(" ","_").replace(/ /g, "_")}`);
               setSuggestionsActive(false);
               setSuggestions([]);
               break;
@@ -186,18 +186,4 @@ const SearchTool = () => {
 
 export default SearchTool;
 
-// const [SearchVlalue, setSearchVlalue] = useState("");
-// const searchValue = useSelector(state => state.searchValue)
-// useEffect(() => {
-//   setSearchVlalue(searchValue)
-// }, [searchValue])
-// return (
-//   <div className="search-form">
-//     <form>
-//       <input type="text" placeholder="جست و جو ..." value={SearchVlalue} onChange={(e) => setSearchVlalue(e.target.value)} />
-//       <Link to={`/archive/${SearchVlalue}/${1}`}>
-//         <Search color="rgb(39 103 169)"/>
-//       </Link>
-//     </form>
-//   </div>
-// );
+
