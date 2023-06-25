@@ -6,7 +6,7 @@ import { Eye } from "react-feather";
 import BarLoader from "react-spinners/BarLoader";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Head } from "next/document";
+import Head from "next/head";
 import UserContext from "../../contexts/user/userContext";
 import MainLayout from '../../layout/MainLayout';
 
@@ -90,10 +90,10 @@ const Login = () => {
                                         value={UserName}
                                         onChange={e => {
                                             setUsername(e.target.value);
-                                            // loginValidation.current.showMessageFor('UserName')
+                                            loginValidation.current.showMessageFor('UserName')
                                         }} />
                                 </div>
-                                {/* {loginValidation.current.message("UserName", UserName, 'required')} */}
+                                {loginValidation.current.message("UserName", UserName, 'required')}
                                 <div className="form-account  mb-3">
                                         <span className="search-icon">
                                             <Lock color="rgb(39 103 169)" />
@@ -105,12 +105,12 @@ const Login = () => {
                                             value={Password}
                                             onChange={e => {
                                                 setPassword(e.target.value);
-                                                // loginValidation.current.showMessageFor('Password')
+                                                loginValidation.current.showMessageFor('Password')
                                             }} />
 
                                         <span className="toggleshowpass" id="togglePassword" onClick={(e) => handleToggleShowPass(e)}><Eye size={18} color={'gray'}/></span>
                                 </div>
-                                {/* {loginValidation.current.message("Password", Password, 'required')} */}
+                                {loginValidation.current.message("Password", Password, 'required')}
 
                                 {/* <Recaptcha
                                     ref={refRecaptcha}
@@ -138,7 +138,7 @@ const Login = () => {
                         <span className='register-info-content_icon p-3 mb-5'><User size={50} /></span>
                         <h3 className='bold pb-2'>ورود به حساب کاربری در سایت DBA </h3>
                         <p className='pb-2'>به سادگی با کلیک بر روی دکمه ورود به حساب کاربری خود وارد شوید</p>
-                        <NavLink href="/register" ><span className="btn btn-outline-light"> ثبت نام</span></NavLink>
+                        <NavLink href="/account/register" ><span className="btn btn-outline-light"> ثبت نام</span></NavLink>
                     </div>
                 </div>
             </div>
@@ -153,5 +153,5 @@ export default Login;
 
 
 Login.getLayout = function (page) {
-    return <MainLayout><UserContext>{page}</UserContext></MainLayout>;
+    return <MainLayout><UserContext>{page}</UserContext></MainLayout>
 };

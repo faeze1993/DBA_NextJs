@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { SaveProductRequest } from "../../services/productRequestService";
 import Head from "next/head";
 
-const ProductDemoForm = ({ location }) => {
+const ProductDemoForm = () => {
 
     const webSiteTitle = useSelector(state => state.webSiteTitle);
     const productList = useSelector(state => state.productValueLabelList)
